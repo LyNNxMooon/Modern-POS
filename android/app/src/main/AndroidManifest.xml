@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="modern_pos"
+        android:label="Modern POS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
