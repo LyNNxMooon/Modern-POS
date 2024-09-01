@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:modern_pos/constants/colors.dart';
 import 'package:modern_pos/constants/text.dart';
-import 'package:modern_pos/screens/register.dart';
 import 'package:modern_pos/widgets/buttons.dart';
 import 'package:modern_pos/widgets/textfield.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import '../constants/colors.dart';
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   bool? showPassword = true;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: ListView(
           children: [
-            Gap(MediaQuery.of(context).size.height * 0.18),
+            Gap(MediaQuery.of(context).size.height * 0.1),
             const Icon(
               Icons.fastfood_outlined,
               color: kFourthColor,
@@ -40,11 +40,13 @@ class _LoginPageState extends State<LoginPage> {
             const Gap(10),
             const Center(
               child: Text(
-                "Login to start",
+                "Register to start",
                 style: subtitleStyle,
               ),
             ),
             const Gap(40),
+            const CustomTextField(hintText: "Enter your Name", label: "Name"),
+            const Gap(20),
             const CustomTextField(hintText: "Enter your Email", label: "Email"),
             const Gap(20),
             CustomTextField(
@@ -66,14 +68,34 @@ class _LoginPageState extends State<LoginPage> {
                           color: kSecondaryColor,
                         )),
             ),
+            const Gap(20),
+            CustomTextField(
+              hintText: "Confirm your Password",
+              label: "Confirm Password",
+              isObsecure: showPassword,
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    showPassword = !showPassword!;
+                    setState(() {});
+                  },
+                  icon: showPassword!
+                      ? const Icon(
+                          Icons.visibility_outlined,
+                          color: kSecondaryColor,
+                        )
+                      : const Icon(
+                          Icons.visibility_off_outlined,
+                          color: kSecondaryColor,
+                        )),
+            ),
             const Gap(40),
             CustomButton(
-              name: "Login",
+              name: "Register",
               function: () {},
             ),
             const Gap(60),
             GestureDetector(
-              onTap: () => Get.to(() => const RegisterPage()),
+              onTap: () => Get.back(),
               child: const Column(
                 children: [
                   Icon(
@@ -84,13 +106,13 @@ class _LoginPageState extends State<LoginPage> {
                   Gap(10),
                   Center(
                       child: Text(
-                    "Tap to create account",
+                    "Already have account? Login",
                     style: TextStyle(fontSize: 12),
                   ))
                 ],
               ),
             ),
-            const Gap(70),
+            const Gap(60),
           ],
         ),
       ),
