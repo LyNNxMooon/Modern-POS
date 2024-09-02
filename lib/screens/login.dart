@@ -16,6 +16,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? showPassword = true;
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,9 +47,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const Gap(40),
-            const CustomTextField(hintText: "Enter your Email", label: "Email"),
+            CustomTextField(
+              hintText: "Enter your Phone",
+              label: "Phone",
+              controller: _phoneController,
+            ),
             const Gap(20),
             CustomTextField(
+              controller: _passwordController,
               hintText: "Enter your Password",
               label: "Password",
               isObsecure: showPassword,

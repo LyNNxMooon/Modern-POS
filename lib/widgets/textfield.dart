@@ -7,17 +7,20 @@ class CustomTextField extends StatelessWidget {
       required this.hintText,
       required this.label,
       this.isObsecure,
-      this.suffixIcon});
+      this.suffixIcon,
+      required this.controller});
 
   final String hintText;
   final String label;
   final bool? isObsecure;
   final IconButton? suffixIcon;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
         obscureText: isObsecure ?? false,
+        controller: controller,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           hintText: hintText,
