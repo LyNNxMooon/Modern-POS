@@ -42,10 +42,11 @@ dependencies:
   json_annotation: ^4.9.0
   dio: ^5.6.0
   retrofit: ^4.2.0
-  retrofit_generator: ^8.2.1
+  logger:
 
 dev_dependencies:
   json_serializable: ^6.8.0
+  retrofit_generator: ^8.2.1
   build_runner: ^2.4.12
   flutter_test:
     sdk: flutter

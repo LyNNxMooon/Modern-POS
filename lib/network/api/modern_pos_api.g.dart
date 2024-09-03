@@ -24,12 +24,23 @@ class _ModernPOSAPI implements ModernPOSAPI {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<RegisterResponse> registerUser(RegisterRequestVO request) async {
+  Future<RegisterResponse> registerUser(
+    String name,
+    String phone,
+    String password,
+    String fcm,
+    String confirmPassword,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = {
+      'name': name,
+      'phone': phone,
+      'password': password,
+      'fcm_token_key': fcm,
+      'password_confirmation': confirmPassword,
+    };
     final _options = _setStreamType<RegisterResponse>(Options(
       method: 'POST',
       headers: _headers,
@@ -46,12 +57,14 @@ class _ModernPOSAPI implements ModernPOSAPI {
           _dio.options.baseUrl,
           baseUrl,
         )));
+    print("-------Starting------");
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    print(_result.statusMessage);
     late RegisterResponse _value;
     try {
       _value = RegisterResponse.fromJson(_result.data!);
-    } on Object catch (_) {
-      errorLogger?.logError("Error");
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
       rethrow;
     }
     return _value;

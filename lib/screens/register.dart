@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:modern_pos/constants/text.dart';
 import 'package:modern_pos/controller/register_controller.dart';
-import 'package:modern_pos/data/vos/register_vo/register_request_vo.dart';
 import 'package:modern_pos/widgets/buttons.dart';
 import 'package:modern_pos/widgets/loading_state_widget.dart';
 import 'package:modern_pos/widgets/textfield.dart';
@@ -18,7 +17,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  bool? showPassword = true;
+  final _registerController = Get.put(RegisterController());
+  bool showPassword = true;
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -35,9 +35,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RegisterController>(
-      builder: (controller) => SafeArea(
-          child: Scaffold(
+    return SafeArea(
+      child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: ListView(
@@ -82,10 +81,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 isObsecure: showPassword,
                 suffixIcon: IconButton(
                     onPressed: () {
-                      showPassword = !showPassword!;
+                      showPassword = !showPassword;
                       setState(() {});
                     },
-                    icon: showPassword!
+                    icon: showPassword
                         ? const Icon(
                             Icons.visibility_outlined,
                             color: kSecondaryColor,
@@ -103,10 +102,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 isObsecure: showPassword,
                 suffixIcon: IconButton(
                     onPressed: () {
-                      showPassword = !showPassword!;
+                      showPassword = !showPassword;
                       setState(() {});
                     },
-                    icon: showPassword!
+                    icon: showPassword
                         ? const Icon(
                             Icons.visibility_outlined,
                             color: kSecondaryColor,
@@ -117,20 +116,22 @@ class _RegisterPageState extends State<RegisterPage> {
                           )),
               ),
               const Gap(40),
-              LoadingStateWidget(
-                  loadingState: controller.getLoadingState,
-                  loadingSuccessWidget: const SizedBox(),
-                  errorMessage: controller.getErrorMessage ?? '',
-                  loadingInitWidget: CustomButton(
-                      name: "Register",
-                      function: () {
-                        controller.registerUser(RegisterRequestVO(
-                            name: _nameController.text,
-                            phone: _phoneController.text,
-                            password: _passwordController.text,
-                            fcm: "fcm_key",
-                            confirmPassword: _confirmPasswordController.text));
-                      })),
+              Obx(
+                () => LoadingStateWidget(
+                    loadingState: _registerController.getLoadingState,
+                    loadingSuccessWidget: const SizedBox(),
+                    loadingInitWidget: CustomButton(
+                        name: "Register",
+                        function: () {
+                          _registerController.registerUser(
+                              _nameController.text,
+                              _phoneController.text,
+                              _passwordController.text,
+                              "fcm_key",
+                              _confirmPasswordController.text,
+                              context);
+                        })),
+              ),
               const Gap(60),
               GestureDetector(
                 onTap: () => Get.back(),
@@ -154,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 }

@@ -2,14 +2,14 @@ import 'package:get/get.dart';
 import 'package:modern_pos/utils/enum.dart';
 
 class BaseController extends GetxController {
-  LoadingState _loadingState = LoadingState.init;
-  String? _errorMessage;
+  final Rx<LoadingState> _loadingState = LoadingState.init.obs;
+  final RxString _errorMessage = "".obs;
 
-  LoadingState get getLoadingState => _loadingState;
-  String? get getErrorMessage => _errorMessage;
+  LoadingState get getLoadingState => _loadingState.value;
+  String get getErrorMessage => _errorMessage.value;
 
   set setLoadingState(LoadingState loadingState) =>
-      _loadingState = loadingState;
+      _loadingState.value = loadingState;
 
-  set setErrorMessage(String message) => _errorMessage = message;
+  set setErrorMessage(String message) => _errorMessage.value = message;
 }

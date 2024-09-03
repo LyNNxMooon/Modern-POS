@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:modern_pos/data/vos/register_vo/register_request_vo.dart';
-import 'package:modern_pos/network/api/error_logger.dart';
 import 'package:modern_pos/network/api_constant.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 part 'modern_pos_api.g.dart';
 
@@ -11,5 +10,11 @@ abstract class ModernPOSAPI {
   factory ModernPOSAPI(Dio dio) => _ModernPOSAPI(dio);
 
   @POST(kEndPointForRegister)
-  Future<RegisterResponse> registerUser(@Body() RegisterRequestVO request);
+  Future<RegisterResponse> registerUser(
+    @Field("name") String name,
+    @Field("phone") String phone,
+    @Field("password") String password,
+    @Field("fcm_token_key") String fcm,
+    @Field("password_confirmation") String confirmPassword,
+  );
 }
