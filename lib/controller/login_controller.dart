@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:modern_pos/controller/base_controller.dart';
 import 'package:modern_pos/data/model.dart';
 import 'package:modern_pos/data/value_holder.dart';
+import 'package:modern_pos/persistent/hive_dao.dart';
 import 'package:modern_pos/screens/home.dart';
 import 'package:modern_pos/utils/enum.dart';
 import 'package:modern_pos/widgets/error_widget.dart';
@@ -13,6 +14,8 @@ import 'package:modern_pos/widgets/error_widget.dart';
 class LoginController extends BaseController {
   final _model = Model();
   final _valueHolder = ValueHolder();
+  final _hiveDAO = HiveDao();
+  RxBool isUser = false.obs;
 
   loginUser(
       String emailOrPhone, String password, String fcm, BuildContext context) {
@@ -37,6 +40,8 @@ class LoginController extends BaseController {
           } else {
             setLoadingState = LoadingState.complete;
             _valueHolder.userToken = value.token ?? "";
+            _hiveDAO.saveUserEmailOrPhone(emailOrPhone);
+            _hiveDAO.saveUserPassword(password);
             Get.offAll(() => const HomePage());
           }
         },
@@ -46,6 +51,7 @@ class LoginController extends BaseController {
           case DioException:
             // Here's the sample to get the failed response error code and message
             final res = (obj as DioException).message;
+
             setLoadingState = LoadingState.error;
             setErrorMessage = "Wrong credentials or password!";
             showDialog(
@@ -63,5 +69,37 @@ class LoginController extends BaseController {
     update();
   }
 
-  checkLoginUser() {}
+  checkLoginUser() async {
+    print(_hiveDAO.getUserEmailOrPassword);
+    print(_hiveDAO.getUserPassword);
+
+    _model
+        .loginUser(_hiveDAO.getUserEmailOrPassword ?? "",
+            _hiveDAO.getUserPassword ?? "", 'fcm')
+        .then(
+      (value) {
+        print("----done-----");
+        if (value.token == null) {
+          isUser.value = false;
+        } else {
+          _valueHolder.userToken = value.token ?? '';
+          isUser.value = true;
+        }
+      },
+    ).catchError((obj) {
+      print("----done but error-----");
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case DioException:
+
+          // Here's the sample to get the failed response error code and message
+          isUser.value = false;
+          break;
+        default:
+          break;
+      }
+    });
+
+    update();
+  }
 }

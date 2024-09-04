@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: kPrimaryColor,
         color: kSecondaryColor,
-        animationDuration: const Duration(milliseconds: 450),
+        animationDuration: const Duration(milliseconds: 320),
         onTap: (selectedIndex) {
           setState(() {
             index = selectedIndex;
