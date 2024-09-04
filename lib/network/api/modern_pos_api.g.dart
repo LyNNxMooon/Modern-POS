@@ -57,12 +57,51 @@ class _ModernPOSAPI implements ModernPOSAPI {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    print("-------Starting------");
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    print(_result.statusMessage);
     late RegisterResponse _value;
     try {
       _value = RegisterResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<LoginResponse> loginUser(
+    String emailOrPhone,
+    String password,
+    String fcm,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'emailOrPhone': emailOrPhone,
+      'password': password,
+      'fcm_token_key': fcm,
+    };
+    final _options = _setStreamType<LoginResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/login',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LoginResponse _value;
+    try {
+      _value = LoginResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modern_pos/utils/enum.dart';
-import 'package:modern_pos/widgets/loading.dart';
+import 'package:modern_pos/widgets/loading_widget.dart';
 
 class LoadingStateWidget extends StatefulWidget {
   const LoadingStateWidget(

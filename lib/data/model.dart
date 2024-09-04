@@ -1,5 +1,6 @@
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent_impl.dart';
+import 'package:modern_pos/network/response/login_response/login_response.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
 
 class Model {
@@ -13,4 +14,8 @@ class Model {
           String password, String fcm, String confirmPassword) =>
       _modernPOSDataAgent.registerUserAccount(
           name, phone, password, fcm, confirmPassword);
+
+  Future<LoginResponse> loginUser(
+          String emailOrPhone, String password, String fcm) =>
+      _modernPOSDataAgent.loginUserAccount(emailOrPhone, password, fcm);
 }

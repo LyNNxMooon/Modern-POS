@@ -1,3 +1,0 @@
-class ValueHolderController {
-  String userToken = "";
-}

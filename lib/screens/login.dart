@@ -3,8 +3,10 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:modern_pos/constants/colors.dart';
 import 'package:modern_pos/constants/text.dart';
+import 'package:modern_pos/controller/login_controller.dart';
 import 'package:modern_pos/screens/register.dart';
 import 'package:modern_pos/widgets/buttons.dart';
+import 'package:modern_pos/widgets/loading_state_widget.dart';
 import 'package:modern_pos/widgets/textfield.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,8 +17,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _loginController = Get.put(LoginController());
   bool? showPassword = true;
-  final _phoneController = TextEditingController();
+  final _emailOrPhoneController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -48,9 +51,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const Gap(40),
             CustomTextField(
-              hintText: "Enter your Phone",
-              label: "Phone",
-              controller: _phoneController,
+              hintText: "Enter your Email or Phone",
+              label: "Email or Phone",
+              controller: _emailOrPhoneController,
             ),
             const Gap(20),
             CustomTextField(
@@ -74,9 +77,17 @@ class _LoginPageState extends State<LoginPage> {
                         )),
             ),
             const Gap(40),
-            CustomButton(
-              name: "Login",
-              function: () {},
+            Obx(
+              () => LoadingStateWidget(
+                  loadingState: _loginController.getLoadingState,
+                  loadingSuccessWidget: const SizedBox(),
+                  loadingInitWidget: CustomButton(
+                    name: "Login",
+                    function: () {
+                      _loginController.loginUser(_emailOrPhoneController.text,
+                          _passwordController.text, "fcm_key", context);
+                    },
+                  )),
             ),
             const Gap(60),
             GestureDetector(
