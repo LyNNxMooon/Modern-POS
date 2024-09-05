@@ -33,7 +33,8 @@ class _ModernPOSAPI implements ModernPOSAPI {
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Accept': 'application/json'};
+    _headers.removeWhere((k, v) => v == null);
     final _data = {
       'name': name,
       'phone': phone,
@@ -76,7 +77,8 @@ class _ModernPOSAPI implements ModernPOSAPI {
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Accept': 'application/json'};
+    _headers.removeWhere((k, v) => v == null);
     final _data = {
       'emailOrPhone': emailOrPhone,
       'password': password,

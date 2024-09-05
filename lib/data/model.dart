@@ -11,11 +11,22 @@ class Model {
   final ModernPOSDataAgent _modernPOSDataAgent = ModernPOSDataAgentImpl();
 
   Future<RegisterResponse> registerUser(String name, String phone,
-          String password, String fcm, String confirmPassword) =>
-      _modernPOSDataAgent.registerUserAccount(
+      String password, String fcm, String confirmPassword) async {
+    try {
+      return await _modernPOSDataAgent.registerUserAccount(
           name, phone, password, fcm, confirmPassword);
+    } on Exception catch (error) {
+      return Future.error(error);
+    }
+  }
 
   Future<LoginResponse> loginUser(
-          String emailOrPhone, String password, String fcm) =>
-      _modernPOSDataAgent.loginUserAccount(emailOrPhone, password, fcm);
+      String emailOrPhone, String password, String fcm) async {
+    try {
+      return await _modernPOSDataAgent.loginUserAccount(
+          emailOrPhone, password, fcm);
+    } on Exception catch (error) {
+      return Future.error(error);
+    }
+  }
 }

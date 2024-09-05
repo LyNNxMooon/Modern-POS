@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         widget = const OrderPage();
         break;
       case 3:
-        widget = const ProfilePage();
+        widget = ProfilePage();
         break;
       default:
         widget = const MainMenuPage();
