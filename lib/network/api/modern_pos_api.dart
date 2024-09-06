@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:modern_pos/network/api_constant.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
+import 'package:modern_pos/network/response/profile_response/profile_response.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
@@ -28,4 +29,11 @@ abstract class ModernPOSAPI {
   })
   Future<LoginResponse> loginUser(@Field("emailOrPhone") String emailOrPhone,
       @Field("password") String password, @Field("fcm_token_key") String fcm);
+
+  @GET(kEndPointForUserProfile)
+  @Headers(<String, dynamic>{
+    'Accept': 'application/json',
+  })
+  Future<ProfileResponse> getUserProfile(
+      @Header(kAuthorizationKey) String token);
 }

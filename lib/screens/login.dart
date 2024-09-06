@@ -21,6 +21,14 @@ class _LoginPageState extends State<LoginPage> {
   bool? showPassword = true;
   final _emailOrPhoneController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailOrPhoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

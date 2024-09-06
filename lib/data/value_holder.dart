@@ -1,3 +1,0 @@
-class ValueHolder {
-  String userToken = "";
-}

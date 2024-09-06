@@ -1,10 +1,14 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:modern_pos/constants/colors.dart';
+import 'package:modern_pos/controller/profile_controller.dart';
 import 'package:modern_pos/screens/cart.dart';
 import 'package:modern_pos/screens/main_menu.dart';
 import 'package:modern_pos/screens/order.dart';
 import 'package:modern_pos/screens/profile.dart';
+
+final _profileController = Get.put(ProfileController());
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -72,6 +76,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 3:
         widget = ProfilePage();
+        _profileController.getUserProfile(context);
         break;
       default:
         widget = const MainMenuPage();

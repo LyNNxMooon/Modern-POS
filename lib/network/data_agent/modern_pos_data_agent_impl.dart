@@ -1,6 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import 'package:modern_pos/controller/value_holder_controller.dart';
+import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/network/api/modern_pos_api.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/response/error_response/error_response.dart';
@@ -15,6 +20,8 @@ class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
 
   static final ModernPOSDataAgentImpl _singleton = ModernPOSDataAgentImpl._();
   factory ModernPOSDataAgentImpl() => _singleton;
+
+  final _valueHolder = Get.put(ValueHolderController());
 
   @override
   Future<RegisterResponse> registerUserAccount(String name, String phone,
@@ -39,6 +46,22 @@ class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
           .asStream()
           .map(
             (event) => event,
+          )
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
+  @override
+  Future<UserVO> getUserProfile() async {
+    try {
+      print(_valueHolder.userToken.value);
+      return await _modernPOSAPI
+          .getUserProfile("Bearer ${_valueHolder.userToken.value}")
+          .asStream()
+          .map(
+            (event) => event.data,
           )
           .first;
     } on Exception catch (error) {
