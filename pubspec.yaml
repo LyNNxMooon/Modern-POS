@@ -47,6 +47,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   cached_network_image: ^3.4.1
+  fluttertoast: ^8.2.8
 
 dev_dependencies:
   json_serializable: ^6.8.0

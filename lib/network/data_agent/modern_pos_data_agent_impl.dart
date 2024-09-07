@@ -10,6 +10,7 @@ import 'package:modern_pos/network/api/modern_pos_api.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/response/error_response/error_response.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
+import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
 
 class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
@@ -62,6 +63,23 @@ class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
           .asStream()
           .map(
             (event) => event.data,
+          )
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
+  @override
+  Future<PasswordUpdateResponse> updatePassword(
+      String password, String newPassword, String confirmPassword) async {
+    try {
+      return await _modernPOSAPI
+          .updatePassword("Bearer ${_valueHolder.userToken.value}", password,
+              newPassword, confirmPassword)
+          .asStream()
+          .map(
+            (event) => event,
           )
           .first;
     } on Exception catch (error) {

@@ -7,10 +7,13 @@ import 'package:modern_pos/constants/images.dart';
 import 'package:modern_pos/constants/text.dart';
 import 'package:modern_pos/controller/profile_controller.dart';
 import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
+import 'package:modern_pos/screens/change_password.dart';
+import 'package:modern_pos/screens/profile_update.dart';
 import 'package:modern_pos/widgets/buttons.dart';
 import 'package:modern_pos/widgets/load_fail_widget.dart';
 import 'package:modern_pos/widgets/loading_state_widget.dart';
 import 'package:modern_pos/widgets/loading_widget.dart';
+import 'package:modern_pos/widgets/password_permission_widget.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -93,9 +96,21 @@ class ProfilePage extends StatelessWidget {
         const Gap(15),
         userCred(context, "Email", user.email.isEmpty ? " - " : user.email),
         const Gap(35),
-        CustomButton(name: "Update Profile", function: () {}),
+        CustomButton(
+            name: "Update Profile",
+            function: () {
+              showDialog(
+                context: context,
+                builder: (context) =>
+                    const PasswordPermissionWidget(widget: ProfileUpdatePage()),
+              );
+            }),
         const Gap(15),
-        CustomButton(name: "Change Password", function: () {}),
+        CustomButton(
+            name: "Change Password",
+            function: () {
+              Get.to(() => const ChangePasswordPage());
+            }),
         const Gap(15),
         CustomButton(
             name: "Logout",

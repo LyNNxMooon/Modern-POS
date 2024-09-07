@@ -50,6 +50,9 @@ class _HomePageState extends State<HomePage> {
         onTap: (selectedIndex) {
           setState(() {
             index = selectedIndex;
+            if (selectedIndex == 3) {
+              _profileController.getUserProfile(context);
+            }
           });
         },
         items: items,
@@ -76,7 +79,6 @@ class _HomePageState extends State<HomePage> {
         break;
       case 3:
         widget = ProfilePage();
-        _profileController.getUserProfile(context);
         break;
       default:
         widget = const MainMenuPage();

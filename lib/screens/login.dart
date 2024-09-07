@@ -88,7 +88,13 @@ class _LoginPageState extends State<LoginPage> {
             Obx(
               () => LoadingStateWidget(
                   loadingState: _loginController.getLoadingState,
-                  loadingSuccessWidget: const SizedBox(),
+                  loadingSuccessWidget: CustomButton(
+                    name: "Login",
+                    function: () {
+                      _loginController.loginUser(_emailOrPhoneController.text,
+                          _passwordController.text, "fcm_key", context);
+                    },
+                  ),
                   loadingInitWidget: CustomButton(
                     name: "Login",
                     function: () {

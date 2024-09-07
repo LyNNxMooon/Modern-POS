@@ -148,6 +148,52 @@ class _ModernPOSAPI implements ModernPOSAPI {
     return _value;
   }
 
+  @override
+  Future<PasswordUpdateResponse> updatePassword(
+    String token,
+    String password,
+    String newPassword,
+    String confirmPassword,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'old_password': password,
+      r'password': newPassword,
+      r'password_confirmation': confirmPassword,
+    };
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Authorization': token,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<PasswordUpdateResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/customer/update-password',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PasswordUpdateResponse _value;
+    try {
+      _value = PasswordUpdateResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

@@ -2,6 +2,7 @@ import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent_impl.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
+import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
 
 //For null data replacement
@@ -35,6 +36,16 @@ class Model {
   Future<UserVO> getUserProfile() async {
     try {
       return await _modernPOSDataAgent.getUserProfile();
+    } on Exception catch (error) {
+      return Future.error(error);
+    }
+  }
+
+  Future<PasswordUpdateResponse> updatePassword(
+      String password, String newPassword, String confirmPassword) async {
+    try {
+      return await _modernPOSDataAgent.updatePassword(
+          password, newPassword, confirmPassword);
     } on Exception catch (error) {
       return Future.error(error);
     }

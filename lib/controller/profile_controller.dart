@@ -10,6 +10,7 @@ import 'package:modern_pos/persistent/hive_dao.dart';
 import 'package:modern_pos/screens/login.dart';
 import 'package:modern_pos/utils/enum.dart';
 import 'package:modern_pos/widgets/error_widget.dart';
+import 'package:modern_pos/widgets/success_widget.dart';
 
 class ProfileController extends BaseController {
   final _hiveDAO = HiveDao();
@@ -26,7 +27,6 @@ class ProfileController extends BaseController {
   logoutUserAccount() {
     _hiveDAO.saveUserEmailOrPhone("");
     _hiveDAO.saveUserPassword("");
-    setLoadingState = LoadingState.init;
     Get.offAll(() => const LoginPage());
 
     update();
@@ -38,6 +38,42 @@ class ProfileController extends BaseController {
       (value) {
         user = value;
         setLoadingState = LoadingState.complete;
+      },
+    ).catchError((error) {
+      setLoadingState = LoadingState.error;
+      setErrorMessage = error;
+      showDialog(
+        context: context,
+        builder: (context) => CustomErrorWidget(
+            errorMessage: getErrorMessage,
+            function: () {
+              Get.back();
+            }),
+      );
+    });
+
+    update();
+  }
+
+  updatePassword(
+      TextEditingController password,
+      TextEditingController newPassword,
+      TextEditingController confirmPassword,
+      BuildContext context) {
+    setLoadingState = LoadingState.loading;
+    _model
+        .updatePassword(password.text, newPassword.text, confirmPassword.text)
+        .then(
+      (value) {
+        setLoadingState = LoadingState.complete;
+        _hiveDAO.saveUserPassword(newPassword.text);
+        password.clear();
+        confirmPassword.clear();
+        newPassword.clear();
+        showDialog(
+          context: context,
+          builder: (context) => SuccessWidget(message: value.message),
+        );
       },
     ).catchError((error) {
       setLoadingState = LoadingState.error;
