@@ -47,8 +47,7 @@ class ProfileController extends BaseController {
         builder: (context) => CustomErrorWidget(
             errorMessage: getErrorMessage,
             function: () {
-              setLoadingState = LoadingState.init;
-              Get.offAll(() => const LoginPage());
+              Get.back();
             }),
       );
     });

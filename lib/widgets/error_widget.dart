@@ -25,8 +25,8 @@ class CustomErrorWidget extends StatelessWidget {
             ),
           )
         ],
-        content: ListView(
-          shrinkWrap: true,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(
               Icons.error_outline,

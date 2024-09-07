@@ -8,6 +8,7 @@ import 'package:modern_pos/constants/text.dart';
 import 'package:modern_pos/controller/profile_controller.dart';
 import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/widgets/buttons.dart';
+import 'package:modern_pos/widgets/load_fail_widget.dart';
 import 'package:modern_pos/widgets/loading_state_widget.dart';
 import 'package:modern_pos/widgets/loading_widget.dart';
 
@@ -31,7 +32,15 @@ class ProfilePage extends StatelessWidget {
               loadingState: _profileController.getLoadingState,
               loadingSuccessWidget:
                   profileWidget(context, _profileController.user),
-              loadingInitWidget: const LoadingWidget()),
+              loadingInitWidget: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.22),
+                child: LoadFailWidget(
+                  function: () {
+                    _profileController.getUserProfile(context);
+                  },
+                ),
+              )),
         )
       ],
     );
@@ -59,7 +68,7 @@ class ProfilePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Gap(40),
+        const Gap(50),
         Container(
           width: 150,
           height: 150,
@@ -77,13 +86,13 @@ class ProfilePage extends StatelessWidget {
                 ),
               )),
         ),
-        const Gap(25),
+        const Gap(35),
         userCred(context, "Name", user.name),
         const Gap(15),
         userCred(context, "Phone", user.phone),
         const Gap(15),
         userCred(context, "Email", user.email.isEmpty ? " - " : user.email),
-        const Gap(25),
+        const Gap(35),
         CustomButton(name: "Update Profile", function: () {}),
         const Gap(15),
         CustomButton(name: "Change Password", function: () {}),
