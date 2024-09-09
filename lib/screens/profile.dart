@@ -8,6 +8,7 @@ import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/screens/change_password.dart';
 import 'package:modern_pos/screens/profile_update.dart';
 import 'package:modern_pos/widgets/buttons.dart';
+import 'package:modern_pos/widgets/confirmation_widget.dart';
 import 'package:modern_pos/widgets/load_fail_widget.dart';
 import 'package:modern_pos/widgets/loading_state_widget.dart';
 import 'package:modern_pos/widgets/password_permission_widget.dart';
@@ -89,8 +90,8 @@ class ProfilePage extends StatelessWidget {
             function: () {
               showDialog(
                 context: context,
-                builder: (context) =>
-                    const PasswordPermissionWidget(widget: ProfileUpdatePage()),
+                builder: (context) => PasswordPermissionWidget(
+                    function: () => Get.to(() => const ProfileUpdatePage())),
               );
             }),
         const Gap(15),
@@ -98,6 +99,22 @@ class ProfilePage extends StatelessWidget {
             name: "Change Password",
             function: () {
               Get.to(() => const ChangePasswordPage());
+            }),
+        const Gap(15),
+        CustomButton(
+            name: "Delete Account",
+            function: () {
+              showDialog(
+                context: context,
+                builder: (context) => PasswordPermissionWidget(
+                    function: () => showDialog(
+                          context: context,
+                          builder: (context) => ConfirmationWidget(
+                              message:
+                                  "Are you sure to delete your account? Action cannot be undone!",
+                              function: () {}),
+                        )),
+              );
             }),
         const Gap(15),
         CustomButton(

@@ -8,6 +8,7 @@ const kEndPointForUserProfile = "/customer";
 const kEndPointForUpdatePassword = "/customer/update-password";
 const kEndPointForUserCredUpdate = "/customer";
 const kEndPointForProfileImageUpload = "/customer/upload-image";
+const kEndPointForDeleteUserAccount = "/customer";
 
 //keys
 

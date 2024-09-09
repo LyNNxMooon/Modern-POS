@@ -8,9 +8,9 @@ import 'package:modern_pos/persistent/hive_dao.dart';
 import 'package:modern_pos/widgets/textfield.dart';
 
 class PasswordPermissionWidget extends StatefulWidget {
-  const PasswordPermissionWidget({super.key, required this.widget});
+  const PasswordPermissionWidget({super.key, required this.function});
 
-  final Widget widget;
+  final Function function;
 
   @override
   State<PasswordPermissionWidget> createState() =>
@@ -38,7 +38,7 @@ class _PasswordPermissionWidgetState extends State<PasswordPermissionWidget> {
                 if (_passwordController.text == _hiveDAO.getUserPassword) {
                   _passwordController.clear();
                   Get.back();
-                  Get.to(() => widget.widget);
+                  widget.function();
                 } else {
                   Fluttertoast.showToast(
                       msg: "Wrong Password!",
