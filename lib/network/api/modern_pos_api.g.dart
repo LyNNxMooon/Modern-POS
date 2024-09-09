@@ -194,6 +194,100 @@ class _ModernPOSAPI implements ModernPOSAPI {
     return _value;
   }
 
+  @override
+  Future<CredUpdateResponse> updateUserCred(
+    String token,
+    String name,
+    String phone,
+    String email,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'name': name,
+      r'phone': phone,
+      r'email': email,
+    };
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Authorization': token,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<CredUpdateResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/customer',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CredUpdateResponse _value;
+    try {
+      _value = CredUpdateResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ProfileImageUploadResponse> uploadProfileImage(
+    String token,
+    File image,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{
+      r'Accept': 'application/json',
+      r'Authorization': token,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'image',
+      MultipartFile.fromFileSync(
+        image.path,
+        filename: image.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _options = _setStreamType<ProfileImageUploadResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/customer/upload-image',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ProfileImageUploadResponse _value;
+    try {
+      _value = ProfileImageUploadResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

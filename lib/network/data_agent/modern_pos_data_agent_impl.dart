@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -9,8 +10,10 @@ import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/network/api/modern_pos_api.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/response/error_response/error_response.dart';
+import 'package:modern_pos/network/response/error_response/profile_image_error_response.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
 import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
+import 'package:modern_pos/network/response/profile_image_upload_response/profile_image_upload_response.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
 
 class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
@@ -87,6 +90,22 @@ class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
     }
   }
 
+  @override
+  Future<ProfileImageUploadResponse> uploadProfileImage(File imageFile) async {
+    try {
+      return await _modernPOSAPI
+          .uploadProfileImage(
+              "Bearer ${_valueHolder.userToken.value}", imageFile)
+          .asStream()
+          .map(
+            (event) => event,
+          )
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
   Object throwException(dynamic error) {
     if (error is DioException) {
       if (error.type == DioExceptionType.connectionError ||
@@ -97,10 +116,16 @@ class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
       }
       if (error.response?.data is Map<String, dynamic>) {
         try {
-          final errorResponse =
-              ErrorResponse.fromJson(jsonDecode(error.response.toString()));
-          String errorMessage = errorResponse.message;
-          return errorMessage;
+          print(error.response?.data);
+          if (error.response?.data["error"] == null) {
+            final errorResponse =
+                ErrorResponse.fromJson(jsonDecode(error.response.toString()));
+            return errorResponse.message;
+          } else {
+            final errorResponse = ProfileImageErrorResponse.fromJson(
+                jsonDecode(error.response.toString()));
+            return errorResponse.error;
+          }
         } catch (error) {
           return error.toString();
         }

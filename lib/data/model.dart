@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent_impl.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
 import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
+import 'package:modern_pos/network/response/profile_image_upload_response/profile_image_upload_response.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
 
 //For null data replacement
@@ -46,6 +49,14 @@ class Model {
     try {
       return await _modernPOSDataAgent.updatePassword(
           password, newPassword, confirmPassword);
+    } on Exception catch (error) {
+      return Future.error(error);
+    }
+  }
+
+  Future<ProfileImageUploadResponse> uploadProfileImage(File imageFile) async {
+    try {
+      return await _modernPOSDataAgent.uploadProfileImage(imageFile);
     } on Exception catch (error) {
       return Future.error(error);
     }

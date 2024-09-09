@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:modern_pos/constants/colors.dart';
-import 'package:modern_pos/constants/images.dart';
 import 'package:modern_pos/constants/text.dart';
 import 'package:modern_pos/controller/profile_controller.dart';
 import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
@@ -12,8 +10,8 @@ import 'package:modern_pos/screens/profile_update.dart';
 import 'package:modern_pos/widgets/buttons.dart';
 import 'package:modern_pos/widgets/load_fail_widget.dart';
 import 'package:modern_pos/widgets/loading_state_widget.dart';
-import 'package:modern_pos/widgets/loading_widget.dart';
 import 'package:modern_pos/widgets/password_permission_widget.dart';
+import 'package:modern_pos/widgets/profile_image_widget.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
@@ -73,22 +71,12 @@ class ProfilePage extends StatelessWidget {
       children: [
         const Gap(50),
         Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(
-              border: Border.all(color: kFourthColor, width: 1),
-              borderRadius: const BorderRadius.all(Radius.circular(90))),
-          child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(90)),
-              child: CachedNetworkImage(
-                imageUrl: user.imgURL.isEmpty ? kPlaceHolderImage : user.imgURL,
-                fit: BoxFit.fill,
-                placeholder: (context, url) => const LoadingWidget(),
-                errorWidget: (context, url, error) => const Center(
-                  child: Icon(Icons.error),
-                ),
-              )),
-        ),
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+                border: Border.all(color: kFourthColor, width: 1),
+                borderRadius: const BorderRadius.all(Radius.circular(90))),
+            child: ProfileImageWidget(img: user.imgURL)),
         const Gap(35),
         userCred(context, "Name", user.name),
         const Gap(15),

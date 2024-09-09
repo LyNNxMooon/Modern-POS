@@ -119,7 +119,17 @@ class _RegisterPageState extends State<RegisterPage> {
               Obx(
                 () => LoadingStateWidget(
                     loadingState: _registerController.getLoadingState,
-                    loadingSuccessWidget: const SizedBox(),
+                    loadingSuccessWidget: CustomButton(
+                        name: "Register",
+                        function: () {
+                          _registerController.registerUser(
+                              _nameController.text,
+                              _phoneController.text,
+                              _passwordController.text,
+                              "fcm_key",
+                              _confirmPasswordController.text,
+                              context);
+                        }),
                     loadingInitWidget: CustomButton(
                         name: "Register",
                         function: () {

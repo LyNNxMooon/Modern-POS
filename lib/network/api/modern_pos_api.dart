@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart' hide Headers;
 import 'package:modern_pos/network/api_constant.dart';
+import 'package:modern_pos/network/response/cred_update_response/cred_update_response.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
 import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
+import 'package:modern_pos/network/response/profile_image_upload_response/profile_image_upload_response.dart';
 import 'package:modern_pos/network/response/profile_response/profile_response.dart';
 import 'package:modern_pos/network/response/register_response/register_response.dart';
 import 'package:retrofit/error_logger.dart';
@@ -48,4 +52,23 @@ abstract class ModernPOSAPI {
     @Query(kQueryParamKeyForNewPassword) String newPassword,
     @Query(kQueryParamKeyForConfirmPassword) String confirmPassword,
   );
+
+  @PUT(kEndPointForUserCredUpdate)
+  @Headers(<String, dynamic>{
+    'Accept': 'application/json',
+  })
+  Future<CredUpdateResponse> updateUserCred(
+    @Header(kAuthorizationKey) String token,
+    @Query(kQueryParamKeyForName) String name,
+    @Query(kQueryParamKeyForPhone) String phone,
+    @Query(kQueryParamKeyForEmail) String email,
+  );
+
+  @MultiPart()
+  @POST(kEndPointForProfileImageUpload)
+  @Headers(<String, dynamic>{
+    'Accept': 'application/json',
+  })
+  Future<ProfileImageUploadResponse> uploadProfileImage(
+      @Header(kAuthorizationKey) String token, @Part(name: "image") File image);
 }
