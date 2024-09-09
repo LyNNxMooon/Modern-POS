@@ -9,6 +9,7 @@ import 'package:modern_pos/controller/value_holder_controller.dart';
 import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/network/api/modern_pos_api.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
+import 'package:modern_pos/network/response/cred_update_response/cred_update_response.dart';
 import 'package:modern_pos/network/response/error_response/error_response.dart';
 import 'package:modern_pos/network/response/error_response/profile_image_error_response.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
@@ -96,6 +97,23 @@ class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
       return await _modernPOSAPI
           .uploadProfileImage(
               "Bearer ${_valueHolder.userToken.value}", imageFile)
+          .asStream()
+          .map(
+            (event) => event,
+          )
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
+  @override
+  Future<CredUpdateResponse> updateUserCred(
+      String name, String phone, String email) async {
+    try {
+      return await _modernPOSAPI
+          .updateUserCred(
+              "Bearer ${_valueHolder.userToken}", name, phone, email)
           .asStream()
           .map(
             (event) => event,

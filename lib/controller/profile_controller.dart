@@ -138,6 +138,35 @@ class ProfileController extends BaseController {
     update();
   }
 
+  updateUserCred(TextEditingController name, TextEditingController phone,
+      TextEditingController email, BuildContext context) {
+    setLoadingState = LoadingState.loading;
+    _model.updateUserCred(name.text, phone.text, email.text).then(
+      (value) {
+        user = value.data;
+        _hiveDAO.saveUserEmailOrPhone(phone.text);
+        setLoadingState = LoadingState.complete;
+        showDialog(
+          context: context,
+          builder: (context) => SuccessWidget(message: value.message),
+        );
+      },
+    ).catchError((error) {
+      setLoadingState = LoadingState.error;
+      setErrorMessage = error;
+      showDialog(
+        context: context,
+        builder: (context) => CustomErrorWidget(
+            errorMessage: getErrorMessage,
+            function: () {
+              Get.back();
+            }),
+      );
+    });
+
+    update();
+  }
+
   showPictureDialog(BuildContext context) {
     showDialog(
       context: context,

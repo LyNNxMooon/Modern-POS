@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent_impl.dart';
+import 'package:modern_pos/network/response/cred_update_response/cred_update_response.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
 import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
 import 'package:modern_pos/network/response/profile_image_upload_response/profile_image_upload_response.dart';
@@ -57,6 +58,15 @@ class Model {
   Future<ProfileImageUploadResponse> uploadProfileImage(File imageFile) async {
     try {
       return await _modernPOSDataAgent.uploadProfileImage(imageFile);
+    } on Exception catch (error) {
+      return Future.error(error);
+    }
+  }
+
+  Future<CredUpdateResponse> updateUserCred(
+      String name, String phone, String email) async {
+    try {
+      return await _modernPOSDataAgent.updateUserCred(name, phone, email);
     } on Exception catch (error) {
       return Future.error(error);
     }
