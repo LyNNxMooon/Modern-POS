@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:modern_pos/data/category_vo/category_vo.dart';
+import 'package:modern_pos/data/vos/category_vo/category_vo.dart';
 part 'category_response.g.dart';
 
 @JsonSerializable()
