@@ -9,6 +9,9 @@ const kEndPointForUpdatePassword = "/customer/update-password";
 const kEndPointForUserCredUpdate = "/customer";
 const kEndPointForProfileImageUpload = "/customer/upload-image";
 const kEndPointForDeleteUserAccount = "/customer";
+const kEndPointForItems = "/products";
+const kEndPointForItemDetails = "/products/{$kPathParamKeyForProductID}";
+const kEndPointForCategories = "/categories";
 
 //keys
 
@@ -19,3 +22,7 @@ const kQueryParamKeyForConfirmPassword = "password_confirmation";
 const kQueryParamKeyForName = "name";
 const kQueryParamKeyForPhone = "phone";
 const kQueryParamKeyForEmail = "email";
+const kQueryParamKeyForPage = "page";
+const kQueryParamKeyForLimit = "limit";
+const kQueryParamKeyForCategoryID = "category_id";
+const kPathParamKeyForProductID = "productID";

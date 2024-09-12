@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart' hide Headers;
 import 'package:modern_pos/network/api_constant.dart';
+import 'package:modern_pos/network/response/category_response/category_response.dart';
 import 'package:modern_pos/network/response/cred_update_response/cred_update_response.dart';
+import 'package:modern_pos/network/response/item_detail_response/item_detail_response.dart';
+import 'package:modern_pos/network/response/item_response/item_response.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
 import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
 import 'package:modern_pos/network/response/profile_image_upload_response/profile_image_upload_response.dart';
@@ -71,4 +74,39 @@ abstract class ModernPOSAPI {
   })
   Future<ProfileImageUploadResponse> uploadProfileImage(
       @Header(kAuthorizationKey) String token, @Part(name: "image") File image);
+
+  @GET(kEndPointForItems)
+  @Headers(<String, dynamic>{
+    'Accept': 'application/json',
+  })
+  Future<ItemResponse> getItems(
+      @Header(kAuthorizationKey) String token,
+      @Query(kQueryParamKeyForPage) int page,
+      @Query(kQueryParamKeyForLimit) int limit);
+
+  @GET(kEndPointForItems)
+  @Headers(<String, dynamic>{
+    'Accept': 'application/json',
+  })
+  Future<ItemResponse> getItemsByCategory(
+      @Header(kAuthorizationKey) String token,
+      @Query(kQueryParamKeyForPage) int page,
+      @Query(kQueryParamKeyForLimit) int limit,
+      @Query(kQueryParamKeyForCategoryID) int categoryID);
+
+  @GET(kEndPointForItemDetails)
+  @Headers(<String, dynamic>{
+    'Accept': 'application/json',
+  })
+  Future<ItemDetailResponse> getItemDetails(
+      @Header(kAuthorizationKey) String token,
+      @Path(kPathParamKeyForProductID) int productID);
+
+  @GET(kEndPointForCategories)
+  @Headers(<String, dynamic>{
+    'Accept': 'application/json',
+  })
+  Future<CategoryResponse> getCategories(
+    @Header(kAuthorizationKey) String token,
+  );
 }
