@@ -49,6 +49,7 @@ dependencies:
   cached_network_image: ^3.4.1
   fluttertoast: ^8.2.8
   image_picker: ^1.1.2
+  shimmer: ^3.0.0
 
 dev_dependencies:
   json_serializable: ^6.8.0

@@ -4,10 +4,10 @@ part 'category_vo.g.dart';
 @JsonSerializable()
 class CategoryVO {
   final int id;
-  final int? orderIndex;
+  int? orderIndex;
   final String name;
   final String image;
-  final String? createdAt;
+  String? createdAt;
   final String updatedAt;
 
   CategoryVO(

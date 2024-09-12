@@ -8,7 +8,7 @@ class ItemResponse {
   final int total;
   @JsonKey(name: "can_load_more")
   final bool loadMore;
-  final List<ItemVO> data;
+  List<ItemVO> data;
 
   ItemResponse(
       {required this.success,

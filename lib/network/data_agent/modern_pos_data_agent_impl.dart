@@ -6,12 +6,15 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:modern_pos/controller/value_holder_controller.dart';
+import 'package:modern_pos/data/vos/category_vo/category_vo.dart';
+import 'package:modern_pos/data/vos/item_vo/item_vo.dart';
 import 'package:modern_pos/data/vos/user_vo/user_vo.dart';
 import 'package:modern_pos/network/api/modern_pos_api.dart';
 import 'package:modern_pos/network/data_agent/modern_pos_data_agent.dart';
 import 'package:modern_pos/network/response/cred_update_response/cred_update_response.dart';
 import 'package:modern_pos/network/response/error_response/error_response.dart';
 import 'package:modern_pos/network/response/error_response/profile_image_error_response.dart';
+import 'package:modern_pos/network/response/item_response/item_response.dart';
 import 'package:modern_pos/network/response/login_response/login_response.dart';
 import 'package:modern_pos/network/response/password_update_response/password_update_response.dart';
 import 'package:modern_pos/network/response/profile_image_upload_response/profile_image_upload_response.dart';
@@ -118,6 +121,60 @@ class ModernPOSDataAgentImpl extends ModernPOSDataAgent {
           .map(
             (event) => event,
           )
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
+  @override
+  Future<List<CategoryVO>> getCategories() async {
+    try {
+      return await _modernPOSAPI
+          .getCategories("Bearer ${_valueHolder.userToken}")
+          .asStream()
+          .map((event) => event.data)
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
+  @override
+  Future<ItemVO> getItemDetails(int productID) async {
+    try {
+      return await _modernPOSAPI
+          .getItemDetails("Bearer ${_valueHolder.userToken}", productID)
+          .asStream()
+          .map((event) => event.data)
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
+  @override
+  Future<ItemResponse> getItems(int page, int limit) async {
+    try {
+      return await _modernPOSAPI
+          .getItems("Bearer ${_valueHolder.userToken}", page, limit)
+          .asStream()
+          .map((event) => event)
+          .first;
+    } on Exception catch (error) {
+      return Future.error(throwException(error));
+    }
+  }
+
+  @override
+  Future<ItemResponse> getItemsByCategory(
+      int page, int limit, int categoryID) async {
+    try {
+      return await _modernPOSAPI
+          .getItemsByCategory(
+              "Bearer ${_valueHolder.userToken}", page, limit, categoryID)
+          .asStream()
+          .map((event) => event)
           .first;
     } on Exception catch (error) {
       return Future.error(throwException(error));

@@ -8,11 +8,11 @@ part 'item_vo.g.dart';
 class ItemVO {
   final int id;
   final String name;
-  final String? barcode;
+  String? barcode;
   @JsonKey(name: "order_index")
   final int orderIndex;
-  final String? description;
-  final ItemBrandVO? brand;
+  String? description;
+  ItemBrandVO? brand;
   final ItemCategoryVO category;
   final List<ItemGenreVO> genres;
   final int quantity;
